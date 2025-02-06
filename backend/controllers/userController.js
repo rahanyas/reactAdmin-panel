@@ -1,5 +1,6 @@
 import userModel from "../models/userModel.js";
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt';
 
 function createToken (id){
   try {  
@@ -24,4 +25,24 @@ export const signUp = async (req, res) => {
     res.status(400).json({msg : error.message})
   }
 
+};
+
+
+export const login = async (req, res) => {
+  const {email, password} = req.body;
+  try {
+    const user = await userModel.findOne({email});
+    if(!user){
+      return res.json({msg : 'this email does not exist'})
+    };
+    const passCompare = await bcrypt.compare(password, user.password);
+
+    if(!passCompare){
+      return res.json({msg : 'wrong password'})
+    }
+    
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({msg : error.message})
+  }
 }
