@@ -1,0 +1,53 @@
+# Node modules (Very Important)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables (Important for security)
+.env
+
+# Logs
+logs
+*.log
+logs/
+debug.log
+error.log
+output.log
+
+# Database (If you're using a local MongoDB database)
+*.sqlite
+*.sqlite-journal
+/data/db
+
+# OS-Specific Files (Mac, Windows, Linux)
+.DS_Store
+Thumbs.db
+
+# Editor and IDE Files (VS Code, JetBrains, etc.)
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Build/Compiled Files
+dist/
+build/
+.cache/
+out/
+
+# Dependency & Package Files
+package-lock.json
+yarn.lock
+
+# AWS / Cloud / Docker (If applicable)
+*.pem
+.dockerignore
+docker-compose.override.yml
+
+# Miscellaneous
+*.bak
+*.tmp
+*.seed
