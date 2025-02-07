@@ -33,13 +33,15 @@ export const login = async (req, res) => {
   try {
     const user = await userModel.findOne({email});
     if(!user){
-      return res.json({msg : 'this email does not exist'})
+      return res.status(400).json({msg : 'this email does not exist'})
     };
     const passCompare = await bcrypt.compare(password, user.password);
 
     if(!passCompare){
-      return res.json({msg : 'wrong password'})
+      return res.status(400).json({msg : 'wrong password'})
     }
+
+    res.status(200).json({msg : 'login successfull', user})
     
   } catch (error) {
     console.log(error.message);

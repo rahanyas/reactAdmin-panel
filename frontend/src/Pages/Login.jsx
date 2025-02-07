@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import useUser from "../context/UserContext";
 const Login = () => {
 
+  const navigate = useNavigate();
+
+   const {setUser} = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isError, setIsError] = useState('');
@@ -20,10 +23,14 @@ const Login = () => {
 
       const json = await response.json();
       console.log(json);
+
       if (!response.ok) {
         setIsError(json.msg);
+        
       } else {
-        setIsError(''); // Clear the error message if login is successful
+        setIsError('');
+        setUser(json.user)
+        navigate('/home')
       }
 
     } catch (error) {
@@ -58,7 +65,7 @@ const Login = () => {
           />
           <button 
             type="submit" 
-            className="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+            className="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300 cursor-pointer"
           >
             Log In
           </button>

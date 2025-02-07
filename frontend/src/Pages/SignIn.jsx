@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import useUser from "../context/UserContext";
 
 const SignIn = () => {
+  
+  const {setUser} = useUser();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -29,6 +32,7 @@ try {
   if(!response.ok){
     setIsError(json.message)
   }
+  setUser(json.user)
 } catch (error) {
   setIsError(error.message)
 }
