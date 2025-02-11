@@ -1,27 +1,46 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Fragment } from 'react'
-import { UserProvider } from './context/UserContext'
-import Login from './Pages/Login'
-import SignIn from './Pages/SignIn'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Fragment } from "react";
+import { UserProvider } from "./context/UserContext";
+import Login from "./Pages/Login";
+import SignIn from "./Pages/SignIn";
+import Home from "./Pages/Home";
+import HomeRedirect from "./utils/HomeRedirect";
+import useUser from "./context/UserContext";
 
-import './App.css'
-import Home from './Pages/Home'
+import "./App.css";
 
-function App() {
-
-  return (
-   <Fragment>
-    <UserProvider>
-       <BrowserRouter>
-       <Routes>
-           <Route path='' element={<Login/>}/>
-           <Route path='/signIn' element={<SignIn/>}/>
-           <Route path='/home' element={<Home/>} />
-       </Routes>
-       </BrowserRouter>
-    </UserProvider>
-   </Fragment>
-  )
+function ProtectedRoute({ children }) {
+  const { user } = useUser();
+  return user ? children : <Navigate to="/login" />;
 }
 
-export default App
+function App() {
+  return (
+    <Fragment>
+      <UserProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Redirect logic for "/" */}
+            <Route path="/" element={<HomeRedirect />} />
+
+            {/* Public Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signin" element={<SignIn />} />
+
+            {/* Protected Route: Home (Only if logged in) */}
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </UserProvider>
+    </Fragment>
+  );
+}
+
+export default App;

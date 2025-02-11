@@ -2,7 +2,8 @@ import Navbar from "../components/Navbar";
 import useUser from "../context/UserContext";
 
 const Home = () => {
-  const {user} = useUser()
+  const {user} = useUser();
+
   return (
     <div>
        <Navbar />

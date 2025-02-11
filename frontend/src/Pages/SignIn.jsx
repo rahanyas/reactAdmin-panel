@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+
 import useUser from "../context/UserContext";
 
 const SignIn = () => {
@@ -17,7 +18,8 @@ const SignIn = () => {
 try {
   
   if(password !== confimPass){
-    return setIsError('pass does not match')
+     setIsError('pass does not match');
+    return;
   }
   setIsError('')
   const response = await fetch('http://localhost:9000/api/user/signup', {
