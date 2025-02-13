@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 import { useState } from "react";
 
 import useUser from "../context/UserContext";
@@ -6,6 +6,7 @@ import useUser from "../context/UserContext";
 const SignIn = () => {
   
   const {setUser} = useUser();
+  const Navigate = useNavigate()
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -34,7 +35,8 @@ try {
   if(!response.ok){
     setIsError(json.message)
   }
-  setUser(json.user)
+  setUser(json.user);
+  Navigate('/home')
 } catch (error) {
   setIsError(error.message)
 }

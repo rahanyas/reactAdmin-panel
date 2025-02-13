@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react/prop-types */
 
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -16,6 +18,7 @@ export const UserProvider = ({children}) => {
         localStorage.removeItem('user')
        }
      }, [user])
+     
      return (
      <UserContext.Provider value={{user, setUser}}>
             {children}

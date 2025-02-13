@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Fragment } from "react";
 import { UserProvider } from "./context/UserContext";

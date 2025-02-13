@@ -12,7 +12,6 @@ export const signUp = async (req, res) => {
     
     const token = createToken(user._id);
     console.log(token);   
-    console.log(user);
 
     setTokenCookie(res, token);
 
@@ -39,7 +38,7 @@ export const login = async (req, res) => {
     }
     const token = createToken(user._id);
     setTokenCookie(res, token)
-    res.status(200).json({msg : 'login successfull', user, })
+    res.status(200).json({msg : 'login successfull', user})
     
   } catch (error) {
     console.log(error.message);
@@ -48,11 +47,13 @@ export const login = async (req, res) => {
 };
 
 
-export const homePage = async (req, res) => {
-    const user = req.user;
-    if(user){
-      console.log('user : ', user);
-    };
-
-    res.status(401).json({msg : 'got no user'})
+export const addtoCart = (req, res) => {
+  const user = req.user;
+  if(!user) {
+    return res.status(404).json({msg : 'please login '})
+  }
+  
+  const {product} = req.body;
+  console.log(product);
+  
 }
