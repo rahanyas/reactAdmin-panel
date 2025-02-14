@@ -6,13 +6,13 @@ const requireAuth = async (req, res, next) => {
     const token = req.cookies.token;
 
     if(!token){
-      return res.status(401).json({msg : 'unauthorized: no tokne provided'})
+      return res.status(401).json({msg : 'unauthorized: no token provided'})
     }
 
     const decoded = jwt.verify(token, process.env.JWT_KEY);
     console.log('decoded : ',decoded);
       
-    const user = await userModel.findById(decoded.id).select("-password");
+    const user = await userModel.findById(decoded._id).select("-password");
 
     if(!user){
       return res.status(401).json({msg : 'unauthorized: invalid token'})

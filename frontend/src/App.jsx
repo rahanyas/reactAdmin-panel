@@ -7,11 +7,14 @@ import SignIn from "./Pages/SignIn";
 import Home from "./Pages/Home";
 import HomeRedirect from "./utils/HomeRedirect";
 import useUser from "./context/UserContext";
+import Cart from "./Pages/Cart";
 
 import "./App.css";
 
 function ProtectedRoute({ children }) {
   const { user } = useUser();
+  console.log(user);
+  
   return user ? children : <Navigate to="/login" />;
 }
 
@@ -37,6 +40,11 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route  path="/cart" element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            }/>
           </Routes>
         </BrowserRouter>
       </UserProvider>

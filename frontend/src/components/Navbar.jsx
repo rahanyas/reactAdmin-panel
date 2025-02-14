@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import useUser from "../context/UserContext";
 
-
 const Navbar = () => {
 
   const {setUser} = useUser() ;
