@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import useUser from "../context/UserContext";
 import baseApi from "../utils/api";
+import Navbar from "../components/Navbar";
 
 const Cart = () => {
   const { user } = useUser();
   const [items, setItems] = useState([]);
-
   useEffect(() => {
     if (user) {
       fetchCartItems();
@@ -22,16 +22,22 @@ const Cart = () => {
     }
   };
 
+  
   const removeItem = async (id) => {
     try {
-      await baseApi.delete(`/user/removeCartItem/${id}`);
-      setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+       const response = await baseApi.delete('/user/removeCartItem', {data : { id}});
+       const json = await response.data;
+       console.log(json);
+      setItems((prev) => prev.filter((item) => item.id !== id))  
     } catch (error) {
-      console.error("Error removing item:", error);
+      console.log(error)
     }
-  };
+  }
+
 
   return (
+    <div>
+    <Navbar /> 
     <div className="max-w-6xl mx-auto p-6">
       <h1 className="text-3xl font-semibold mb-6">Shopping Cart</h1>
       {items.length > 0 ? (
@@ -43,8 +49,8 @@ const Cart = () => {
               <p className="text-gray-700">${elm.price}</p>
               <p className="text-sm text-gray-500">Quantity: {elm.quantity}</p>
               <button
+                className="mt-3 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full cursor-pointer"
                 onClick={() => removeItem(elm.id)}
-                className="mt-3 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full"
               >
                 Remove Item
               </button>
@@ -54,6 +60,7 @@ const Cart = () => {
       ) : (
         <p className="text-gray-600 text-center">No items in the cart</p>
       )}
+    </div>
     </div>
   );
 };
