@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import axios from "axios";
-import baseApi from "../utils/api";
+import baseApi from "../../utils/api";
 
 const Home = () => {
   const [products, setProducts] = useState([]);

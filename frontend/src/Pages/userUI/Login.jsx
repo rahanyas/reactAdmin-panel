@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import baseApi from "../utils/api";
-import useUser from "../context/UserContext";
+import baseApi from "../../utils/api";
+import useUser from "../../context/UserContext";
 const Login = () => {
 
   const navigate = useNavigate();

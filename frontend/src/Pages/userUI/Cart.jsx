@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import useUser from "../context/UserContext";
-import baseApi from "../utils/api";
-import Navbar from "../components/Navbar";
+import useUser from "../../context/UserContext"; 
+import baseApi from "../../utils/api";
+import Navbar from "../../components/Navbar";
 
 const Cart = () => {
   const { user } = useUser();
   const [items, setItems] = useState([]);
+  
   useEffect(() => {
     if (user) {
       fetchCartItems();

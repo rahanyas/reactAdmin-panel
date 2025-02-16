@@ -2,14 +2,14 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Fragment } from "react";
 import { UserProvider } from "./context/UserContext";
-import Login from "./Pages/Login";
-import SignIn from "./Pages/SignIn";
-import Home from "./Pages/Home";
+import Login from "./Pages/userUi/Login";
+import SignIn from "./Pages//userUi/SignIn";
+import Home from "./Pages//userUi/Home";
 import HomeRedirect from "./utils/HomeRedirect";
 import useUser from "./context/UserContext";
-import Cart from "./Pages/Cart";
+import Cart from "./Pages/userUi/Cart";
 
-import "./App.css";
+import AdminLogin from "./Pages/adminUI/LoginAdmin";
 
 function ProtectedRoute({ children }) {
   const { user } = useUser();
@@ -45,6 +45,8 @@ function App() {
                 <Cart />
               </ProtectedRoute>
             }/>
+
+            <Route path="/adminLogin" element={<AdminLogin/>}/>
           </Routes>
         </BrowserRouter>
       </UserProvider>
