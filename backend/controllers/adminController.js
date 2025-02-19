@@ -1,7 +1,7 @@
 import adminModel from "../models/adminModel.js";
 import createToken from "../utils/tokenCreate.js";
 import setTokenCookie from "../utils/tokenCookies.js";
-
+import userModel from '../models/userModel.js'
 import bcrypt from 'bcrypt'
 
 export const adminLogin = async (req, res) => {
@@ -32,5 +32,23 @@ export const adminLogin = async (req, res) => {
 
 
 export const getUsers = async (req, res) => {
+  try {
+    const admin = req.admin;
+    console.log('admin',admin);
+    if(!admin){
+      return res.status(401).json({msg : 'unauthourized entry'})
+    }
+    const users = await userModel.find({});
+    if(!users){
+      return res.json({msg : 'no user found in database'})
+    }
   
+    console.log(users);
+    
+    return res.status(200).json({msg : 'fetched user successfullu', users})
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({msg : err.message})
+  }
+
 }
