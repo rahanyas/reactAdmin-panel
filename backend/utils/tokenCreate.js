@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 
 function createToken (id){
   try {  
-    const token = jwt.sign({_id : id}, process.env.JWT_KEY, {expiresIn :'3d' });
+    const token = jwt.sign({_id : id}, process.env.JWT_KEY, {expiresIn :'2d' });
     return token;
 
   } catch (error) {

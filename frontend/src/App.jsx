@@ -1,57 +1,70 @@
 /* eslint-disable react/prop-types */
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Fragment } from "react";
+import React, { Fragment, Suspense } from "react";
 import { UserProvider } from "./context/UserContext";
 import Login from "./Pages/userUi/Login";
-import SignIn from "./Pages//userUi/SignIn";
-import Home from "./Pages//userUi/Home";
+import Home from "./Pages/userUI/Home";
 import HomeRedirect from "./utils/HomeRedirect";
 import useUser from "./context/UserContext";
-import Cart from "./Pages/userUi/Cart";
+import Cart from "./Pages/userUI/Cart";
 
 import AdminLogin from "./Pages/adminUI/LoginAdmin";
+import { AdminProvider } from "./context/AdminContext";
+import useAdmin from "./context/AdminContext";
+import Dashboard from "./Pages/adminUI/Dashboard";
+
+const SignIn = React.lazy(() => import('./Pages/userUi/SignIn'));
+
+
 
 function ProtectedRoute({ children }) {
   const { user } = useUser();
-  console.log(user);
-  
   return user ? children : <Navigate to="/login" />;
 }
 
+function AdminProtectedRoute({children}) {
+  const {admin} = useAdmin();
+  return admin ? children : <Navigate to='/admin/adminLogin' />
+}
+
+function AdminRoutes(){
+  return (
+   
+      <Routes>
+        <Route path="/adminLogin" element={<AdminLogin/>}/>
+        <Route path="/dashboard" element={<AdminProtectedRoute><Dashboard/></AdminProtectedRoute>}/>
+      </Routes>
+    
+  )
+}
+
 function App() {
+
+
   return (
     <Fragment>
-      <UserProvider>
-        <BrowserRouter>
-          <Routes>
-            {/* Redirect logic for "/" */}
-            <Route path="/" element={<HomeRedirect />} />
+      <BrowserRouter>
+        <UserProvider>
+          <AdminProvider>
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <Routes>
+              <Route path="/" element={<HomeRedirect />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signin" element={<SignIn />} />
 
-            {/* Public Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signin" element={<SignIn />} />
+              <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+              <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
 
-            {/* Protected Route: Home (Only if logged in) */}
-            <Route
-              path="/home"
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }
-            />
-            <Route  path="/cart" element={
-              <ProtectedRoute>
-                <Cart />
-              </ProtectedRoute>
-            }/>
-
-            <Route path="/adminLogin" element={<AdminLogin/>}/>
-          </Routes>
-        </BrowserRouter>
-      </UserProvider>
+              <Route path="/admin/*" element={<AdminRoutes/>} />
+                                    
+            </Routes>
+          </Suspense>
+          </AdminProvider>
+        </UserProvider>
+      </BrowserRouter>
     </Fragment>
   );
 }
+
 
 export default App;

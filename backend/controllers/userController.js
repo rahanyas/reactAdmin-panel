@@ -38,6 +38,7 @@ export const login = async (req, res) => {
     }
     const token = createToken(user._id);
     setTokenCookie(res, token)
+    
     res.status(200).json({msg : 'login successfull', user: user._id})
     
   } catch (error) {
