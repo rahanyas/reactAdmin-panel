@@ -1,9 +1,11 @@
 import express from 'express';
 const router = express.Router();
-import requireAuth from '../middleware/authMiddleware.js'
-import { adminLogin, getUsers } from "../controllers/adminController.js";
+import {adminAuth} from '../middleware/authMiddleware.js'
+import { adminLogin, blockUser, getUsers, unBlockUser } from "../controllers/adminController.js";
 
 router.post('/adminLogin', adminLogin);
-router.get('/getUsers', requireAuth, getUsers);
+router.get('/getUsers', adminAuth, getUsers);
+router.post('/blockUser', adminAuth, blockUser);
+router.post('/unBlockUser', adminAuth, unBlockUser)
 
 export default router

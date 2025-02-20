@@ -17,6 +17,24 @@ const Dashboard = () => {
   const handleLogout = () => {
        localStorage.removeItem('admin');
        setAdmin(null)
+  };
+
+  const handleBlock = async (id) => {
+       console.log(id)
+       const req = await baseApi.post('/admin/blockUser', {id});
+      //  const res = req;
+      //  console.log(res)
+      if(req.status === 200){
+        setUsers((prev) => prev.map((user) => user._id === id ? {... user, isBlocked : true} : user))
+      }
+  }
+
+  const handleUnblock = async (id) => {
+    console.log('unblock btn clickded');
+    const req = await baseApi.post('/admin/unBlockUser', {id});
+    if(req.status === 200){
+      setUsers((prev) => prev.map((user) => user._id === id ? {...user, isBlocked : false} : user))
+    }
   }
 
   return (
@@ -39,12 +57,11 @@ const Dashboard = () => {
               >
                 <td className="py-3 px-6">{user.email}</td>
                 <td className="py-3 px-6 text-center">
-                  <button className="bg-red-500 text-white px-4 py-2 rounded-lg mr-2 hover:bg-red-600 cursor-pointer">
-                    Block
-                  </button>
-                  <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 cursor-pointer">
-                    Unblock
-                  </button>
+                    {user.isBlocked ? <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 cursor-pointer" onClick={() => handleUnblock(user._id)}>
+                      Unblock
+                    </button> : <button className="bg-red-500 text-white px-4 py-2 rounded-lg mr-2 hover:bg-red-600 cursor-pointer" onClick={() => handleBlock(user._id)}>
+                      Block
+                    </button> }
                 </td>
               </tr>
             ))}
