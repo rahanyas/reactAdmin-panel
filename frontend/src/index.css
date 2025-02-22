@@ -1,1 +1,34 @@
 @import "tailwindcss";
+
+/* pagination.css */
+.pagination {
+  display: flex;
+  list-style: none;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.page-link, .pagination a {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.page-link:hover {
+  background-color: #f0f0f0;
+}
+
+.active a {
+  background-color: #3b82f6; /* Tailwind blue-500 */
+  color: white;
+  border-color: #3b82f6;
+}
+
+.disabled a {
+  color: #aaa;
+  cursor: not-allowed;
+}

@@ -16,7 +16,6 @@ import Dashboard from "./Pages/adminUI/Dashboard";
 const SignIn = React.lazy(() => import('./Pages/userUi/SignIn'));
 
 
-
 function ProtectedRoute({ children }) {
   const { user } = useUser();
   return user ? children : <Navigate to="/login" />;

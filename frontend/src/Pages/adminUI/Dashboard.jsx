@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import baseApi from "../../utils/api";
 import useAdmin from "../../context/AdminContext";
 import SearchInput from "../../components/SearchBox";
+import PaginatedItems from "../../components/Pagination";
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
   const { setAdmin } = useAdmin();
   const [search, setSearch] = useState('');
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -43,11 +47,19 @@ const Dashboard = () => {
     }
   };
 
-  const filteredUser = search
+  let filteredUser = search
     ? users.filter((user) =>
         user.email.toLowerCase().includes(search.toLowerCase())
       )
     : users;
+
+    const pageCount = Math.ceil(filteredUser.length / itemsPerPage);
+    const startIndex = currentPage * itemsPerPage;
+    const paginatedUsers = filteredUser.slice(startIndex, startIndex + itemsPerPage);
+
+    const handlePageChange = ({selected}) => {
+      setCurrentPage(selected)
+    }
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -71,8 +83,8 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUser.length > 0 ? (
-              filteredUser.map((user, index) => (
+            {paginatedUsers.length > 0 ? (
+              paginatedUsers.map((user, index) => (
                 <tr
                   key={index}
                   className="border-b border-gray-200 hover:bg-gray-100"
@@ -106,6 +118,7 @@ const Dashboard = () => {
             )}
           </tbody>
         </table>
+        <PaginatedItems pageCount={pageCount} onPageChange={handlePageChange}/>
       </div>
     </div>
   );
